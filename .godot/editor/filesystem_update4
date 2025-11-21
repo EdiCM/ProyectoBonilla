@@ -1,0 +1,15 @@
+res://src/menu_components/MainMenu.tscn
+res://src/Player.gd
+res://src/Player.tscn
+res://src/Fader.gd
+res://src/FlashingLight.gd
+res://src/menu_components/MainMenu.gd
+res://src/Monster.gd
+res://PathFinder.gd
+res://src/Level.gd
+res://src/FlashingLight.tscn
+res://src/Level.tscn
+res://src/tiles_new.meshlib
+res://src/Tiles.tscn
+res://src/Monster.tscn
+res://src/Orb.tscn

@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3 uid="uid://cjwxiabx0whdl"]
+
+[ext_resource type="PackedScene" path="res://src/Fader.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://src/menu_components/3DMenuScene.tscn" id="3"]
+[ext_resource type="Script" uid="uid://d3cksc2yly1gt" path="res://src/menu_components/MainMenu.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://p5sk3qr5we7k" path="res://src/Level.tscn" id="6"]
+[ext_resource type="AudioStream" uid="uid://cohj55syrfxdh" path="res://assets/main_theme.wav" id="7"]
+
+[sub_resource type="Animation" id="2"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer:volume_db")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -49.585]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vmjj1"]
+_data = {
+&"fade_out": SubResource("2")
+}
+
+[node name="MainMenu" type="Node3D"]
+script = ExtResource("5")
+game_scene = ExtResource("6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Fader" parent="CanvasLayer" instance=ExtResource("1")]
+anchors_preset = 15
+
+[node name="Control" type="Control" parent="CanvasLayer/Fader"]
+show_behind_parent = true
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Fader/Control"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Fader/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "..::THE DARK ALLEY::.."
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Fader/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Fader/Control/VBoxContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="CanvasLayer/Fader/Control/VBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "START GAME"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/Fader/Control/VBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "QUIT GAME"
+
+[node name="3DMenuScene" parent="." instance=ExtResource("3")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7")
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_vmjj1")
+}
