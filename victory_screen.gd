@@ -6,7 +6,6 @@ func _ready():
 	# Liberar el mouse para poder hacer clic
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
-	# Conectar el botón
 	continue_button.pressed.connect(on_continue_pressed)
 
 func on_continue_pressed():

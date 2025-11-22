@@ -65,7 +65,6 @@ stream = ExtResource("3")
 autoplay = true
 
 [node name="Fader" parent="." instance=ExtResource("4")]
-anchors_preset = 15
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

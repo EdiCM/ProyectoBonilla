@@ -8,11 +8,10 @@ extends Node3D
 
 var collected_orbs = 0
 var total_orb_count = 0
-var collected_lives = 0  # ← NUEVO (opcional, solo para debug)
-var total_life_pickups = 0  # ← NUEVO (opcional, solo para debug)
+var collected_lives = 0 
+var total_life_pickups = 0 
 
 func _ready():
-	# Esperar a que todo esté listo
 	await get_tree().process_frame
 	
 	if monster != null and player != null:
@@ -23,12 +22,11 @@ func _ready():
 	
 	total_orb_count = orb_container.get_child_count()
 	
-	# ← NUEVO: Contar pickups de vida
 	if life_pickup_container:
 		total_life_pickups = life_pickup_container.get_child_count()
 	
 	player.orb_collected.connect(on_orb_collected)
-	player.life_collected.connect(on_life_collected)  # ← NUEVO
+	player.life_collected.connect(on_life_collected) 
 	
 	# Conectar la zona de victoria
 	if victory_zone:
@@ -45,7 +43,6 @@ func on_orb_collected():
 		print("¡Todas las orbes recolectadas! ¡VICTORIA!")
 		on_player_won()
 
-# ← NUEVA FUNCIÓN
 func on_life_collected():
 	collected_lives += 1
 	print("¡Vida recolectada! Total recogidas: ", collected_lives, "/", total_life_pickups)

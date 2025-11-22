@@ -1,27 +1,35 @@
-[gd_scene load_steps=5 format=3 uid="uid://cy0fwxpdk4uwp"]
+[gd_scene load_steps=4 format=3 uid="uid://cy0fwxpdk4uwp"]
 
 [ext_resource type="Script" uid="uid://b7soatp2nu3t" path="res://victory_zone.gd" id="1_1t5un"]
+[ext_resource type="PackedScene" uid="uid://dvpsyykl3pxjy" path="res://src/portal.glb" id="2_yafo7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yafo7"]
-size = Vector3(2, 3, 2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3i8l0"]
-albedo_color = Color(0.22778, 0.698854, 0, 1)
-emission_enabled = true
-emission = Color(0, 1, 0, 1)
-emission_energy_multiplier = 2.0
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_r4ok5"]
-top_radius = 0.8
-bottom_radius = 0.8
-height = 0.3
+size = Vector3(2, 2.75879, 0.468628)
 
 [node name="VictoryZone" type="Area3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_1t5un")
 
+[node name="portal" parent="." instance=ExtResource("2_yafo7")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 1.99078, 0)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00750683, 1.41619, -0.431867)
 shape = SubResource("BoxShape3D_yafo7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_3i8l0")
-mesh = SubResource("CylinderMesh_r4ok5")
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.39013e-08, 1.90438, -0.159013)
+light_color = Color(0.633577, 0.656782, 0.647781, 1)
+light_energy = 5.0
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.33452, 3.17933, 1.11828)
+light_energy = 100.0
+omni_range = 0.956
+omni_attenuation = -0.304
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.54193, 3.63312, 0.685921)
+light_energy = 100.0
+omni_range = 0.956
+omni_attenuation = -0.304

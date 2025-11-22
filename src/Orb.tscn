@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://djy3s8pnupppy"]
+[gd_scene load_steps=10 format=3 uid="uid://djy3s8pnupppy"]
 
 [ext_resource type="AudioStream" uid="uid://d11wrh6bh0cl" path="res://assets/sonar_ping.wav" id="1"]
+[ext_resource type="PackedScene" uid="uid://sr0551k3x3mg" path="res://src/orb.glb" id="1_x23eh"]
 
 [sub_resource type="SphereShape3D" id="1"]
 
@@ -62,10 +63,14 @@ height = 0.1
 collision_layer = 8
 collision_mask = 0
 
+[node name="orb" parent="." instance=ExtResource("1_x23eh")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+
 [node name="CollisionShape" type="CollisionShape3D" parent="."]
 shape = SubResource("1")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, -0.0118263)
 mesh = SubResource("3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -75,7 +80,10 @@ libraries = {
 autoplay = "idle"
 
 [node name="OmniLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00314379, 0.0221511, -0.00225163)
 light_color = Color(0.329412, 0.545098, 1, 1)
+light_energy = 0.5
+omni_range = 1.231
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("1")

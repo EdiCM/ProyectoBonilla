@@ -20,3 +20,7 @@ res://src/Fader.tscn
 res://src/LifePickup.tscn
 res://pause_menu.gd
 res://src/PauseMenu.tscn
+res://canvas_layer.gd
+res://minimap.gd
+res://src/Minimap.tscn
+res://src/menu_components/3DMenuScene.tscn

@@ -2,6 +2,11 @@ extends CharacterBody3D
 
 const GRAVITY = -24.8
 const MAX_SPEED = 7
+const SPRINT_SPEED = 16  # Velocidad al correr
+var is_sprinting = false
+var can_sprint = true
+var sprint_duration = 0.5  # Duración del sprint en segundos
+var sprint_cooldown = 5.0  # Tiempo de espera para volver a hacer sprint
 const ACCEL = 3.5
 
 @onready var collider = $Collider
@@ -63,7 +68,7 @@ func _ready():
 
 func update_health_ui():
 	if health_label:
-		# Mostrar corazones: ❤️❤️❤️
+		# Mostrar corazones
 		var hearts = ""
 		for i in range(current_health):
 			hearts += "❤️ "
@@ -145,7 +150,7 @@ func _physics_process(delta):
 	
 
 func process_input(delta):
-	# Walking
+	# Caminar
 	dir = Vector3()
 	var cam_xform = camera.get_global_transform()
 	
@@ -161,7 +166,8 @@ func process_input(delta):
 		input_movement_vector.x += 1
 	if Input.is_action_just_pressed("toggle_flashlight"):
 		$CameraPivot/SpotLight3D.visible = not $CameraPivot/SpotLight3D.visible
-	# Después de toggle_flashlight...
+	if Input.is_action_just_pressed("ui_shift") and can_sprint and not is_sprinting:
+		activate_sprint()
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			toggle_pause()
@@ -181,7 +187,7 @@ func process_input(delta):
 	dir += -cam_xform.basis.z.normalized() * input_movement_vector.y
 	dir += cam_xform.basis.x.normalized() * input_movement_vector.x
 	
-	# Capturing/Freeing the cursor
+	# Capturing/Freeing el cursor
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -203,7 +209,8 @@ func process_movement(delta):
 	hvel.y = 0
 	
 	var target = dir
-	target *= MAX_SPEED
+	var current_speed = SPRINT_SPEED if is_sprinting else MAX_SPEED
+	target *= current_speed
 	
 	var accel
 	if dir.dot(hvel) > 0:
@@ -260,7 +267,7 @@ func take_damage(amount = 1):
 	if current_health > 0:
 		is_invulnerable = true
 		
-		# Efecto visual: hacer que la pantalla tiemble más fuerte
+		# Hace que la pantalla tiemble más fuerte
 		var original_fov = camera.fov
 		camera.fov = 80  # Zoom out momentáneo
 		
@@ -317,13 +324,11 @@ func toggle_pause():
 	
 	print("PAUSANDO JUEGO")
 	
-	# FORZAR cursor visible ANTES de pausar
+	# Forza cursor visible antes de pausar
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	# Pequeña pausa para que el input system procese el cambio
 	await get_tree().process_frame
-	
-	# Pausar el juego
 	get_tree().paused = true
 	
 	# Instanciar el menú de pausa
@@ -332,3 +337,24 @@ func toggle_pause():
 	get_tree().root.add_child(pause_menu)
 	
 	print("MENÚ CREADO")
+
+func activate_sprint():
+	if not can_sprint or is_grabbed or is_dying:
+		return
+	
+	is_sprinting = true
+	can_sprint = false
+	
+	print("Sprint activado!")
+	
+	# Duración del sprint
+	await get_tree().create_timer(sprint_duration).timeout
+	is_sprinting = false
+	
+	print("Sprint terminado, esperando cooldown...")
+	
+	# Cooldown
+	await get_tree().create_timer(sprint_cooldown).timeout
+	can_sprint = true
+	
+	print("Sprint disponible de nuevo!")

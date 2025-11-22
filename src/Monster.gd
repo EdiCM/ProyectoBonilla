@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-const SPEED = 2.0
+const SPEED = 4.0
 
 var target = null
 var path = null
@@ -14,7 +14,6 @@ func _ready():
 	
 	hitbox.body_entered.connect(on_hit_player)
 	
-	# Esperar un frame antes de inicializar PathFinder
 	await get_tree().process_frame
 	
 	var parent = get_parent()
